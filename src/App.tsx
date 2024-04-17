@@ -1,4 +1,4 @@
-import Index from "../components/index";
+import Display from "../components/display";
 
 import './App.css'
 
@@ -6,7 +6,7 @@ function App() {
   
   return (
     <>
-      <Index/>
+      <Display/>
     </>
   )
 }
