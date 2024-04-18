@@ -1,109 +1,84 @@
-import {CameraFrameProvider} from "./cameraFrameProvider/cameraFramerProvider"
-import {FacemeshLandmarksProvider} from "./ladmarks/landmarksProvider"
-import {SceneManager} from "./sceneManager/sceneManager";
+import { CameraFrameProvider } from "./cameraFrameProvider/cameraFramerProvider"
+import { FacemeshLandmarksProvider } from "./ladmarks/landmarksProvider"
+import { SceneManager } from "./sceneManager/sceneManager";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Display = () => {
-    const videoRef=useRef<HTMLDivElement>(null);
-    const video=useRef<HTMLVideoElement>(null);
-    const source=useRef<HTMLSourceElement>(null);
-    const canvas=useRef<HTMLCanvasElement>(null);
+    const videoRef = useRef<HTMLDivElement>(null);
+    const video = useRef<HTMLVideoElement>(null);
+    const source = useRef<HTMLSourceElement>(null);
+    const canvas = useRef<HTMLCanvasElement>(null);
 
-    //ref is not a prop
+    let onceCalled=false;
 
-    useEffect(() => {
-        async function main() {
-            if(videoRef.current) {
-                videoRef.current.classList.add("loading");
-            }
+    async function main() {
+        if (videoRef.current && video.current && source.current && canvas.current) {
+            videoRef.current?.classList.add("loading");
 
+ 
             const useOrtho = true;
             const debug = false;
 
-            let sceneManager:any;
-            let facemeshLandmarksProvider:any;
-            let videoFrameProvider:any;
+            let sceneManager: any;
+            let facemeshLandmarksProvider: any;
+            let videoFrameProvider: any;
 
-            const onLandmarks = ({ image, landmarks }: {image:any, landmarks:any}) => {
+            const onLandmarks = ({ image, landmarks }: { image: any, landmarks: any }) => {
                 sceneManager.onLandmarks(image, landmarks);
-                
             }
-            console.log("brk point one");
 
-            const onFrame = async (video:any) => {
+            const onFrame = async (video: any) => {
                 try {
                     await facemeshLandmarksProvider.send(video);
-                    console.log("Brk point two");
                 } catch (e) {
                     alert("Not Supported on your device")
                     console.error(e);
-                    console.log("Brk point two");
                     videoFrameProvider.stop();
                 }
             }
-            console.log("Break point two");
+
             function animate() {
                 requestAnimationFrame(animate);
                 sceneManager.resize(window.innerWidth, window.innerHeight);
-                console.log("called");
                 sceneManager.animate();
             }
-            console.log("Break point three");
 
-            if(canvas.current){
-                console.log("Break point four");
-                sceneManager = new SceneManager(canvas.current, debug, useOrtho);
-                sceneManager.buildGlasses("3d/glasses/scene.gltf");
-                console.log("Break point five");
-            }
+            sceneManager = new SceneManager(canvas.current, debug, useOrtho);
+            sceneManager.buildGlasses("3d/black-glasses/scene.gltf");
 
             facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
-            console.log(facemeshLandmarksProvider);
 
-            // const changeGlass = async () => {
-            //     sceneManager.glasses.removeGlasses();
-            //     sceneManager.buildGlasses("3d/glasses/glft001.gltf");
-            //     sceneManager.glasses.addGlasses();
-            // }
-
-            // document.querySelectorAll(".glass_one").forEach(glass => {
-            //     glass.addEventListener("click", async () => {
-            //         await changeGlass();
-            //     })
-            // })
-
-            // unload video
-            if (video.current) {
-                video.current.pause();
-                
-                if(source.current) source.current.remove();
-                
-                video.current.removeAttribute('src'); 
-                video.current.load();
+            const changeGlass = async () => {
+                sceneManager.glasses.removeGlasses();
+                sceneManager.buildGlasses("3d/glasses/glft001.gltf");
+                sceneManager.glasses.addGlasses();
             }
 
-            videoFrameProvider = new CameraFrameProvider(video, onFrame);
-            
-            console.log(videoFrameProvider);
-            
+            document.querySelectorAll(".glass_one").forEach(glass => {
+                glass.addEventListener("click", async () => {
+                    await changeGlass();
+                })
+            })
+
+            videoFrameProvider = new CameraFrameProvider(video.current, onFrame);
+
             await facemeshLandmarksProvider.initialize();
-            console.log("Test");
             videoFrameProvider.start();
-            console.log("Test");
-            console.log('Called');
+
             animate();
 
-            console.log("first")
-
-            if(videoRef.current) videoRef.current.classList.remove("loading");
+            videoRef.current?.classList.remove("loading");
         }
+    }
 
-        if(videoRef.current && video.current && source.current && canvas.current) {
-            console.log("Main called");
+    useEffect(() => {
+        if(!onceCalled){
+            console.log("Model called");
             main();
+            onceCalled=true;
         }
-    }, [videoRef, video, source, canvas])
+    }, [videoRef, canvas, video, source]) 
 
     return (
         <div className="video-container" ref={videoRef}>
@@ -115,7 +90,7 @@ const Display = () => {
 
             <div>
                 <video ref={video} className="input_video" controls playsInline>
-                    <source ref={source} src="${PUBLIC_PATH}/video/videoplayback2.mp4" />
+                    <source ref={source} src=" " />
                 </video>
             </div>
         </div>
