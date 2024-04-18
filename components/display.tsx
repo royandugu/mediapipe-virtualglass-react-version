@@ -1,15 +1,19 @@
+import { useEffect, useRef, useState } from "react";
+
 import { CameraFrameProvider } from "./cameraFrameProvider/cameraFramerProvider"
 import { FacemeshLandmarksProvider } from "./ladmarks/landmarksProvider"
 import { SceneManager } from "./sceneManager/sceneManager";
 
-import { useEffect, useRef, useState } from "react";
+import ListOfGlasses from "./listOfGlasses/listOfGlasses";
 
 const Display = () => {
+    const [selected,setSelected]=useState(-1);
+
     const videoRef = useRef<HTMLDivElement>(null);
     const video = useRef<HTMLVideoElement>(null);
     const source = useRef<HTMLSourceElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
-
+    
     let onceCalled=false;
 
     async function main() {
@@ -74,7 +78,6 @@ const Display = () => {
 
     useEffect(() => {
         if(!onceCalled){
-            console.log("Model called");
             main();
             onceCalled=true;
         }
@@ -93,6 +96,7 @@ const Display = () => {
                     <source ref={source} src=" " />
                 </video>
             </div>
+            <ListOfGlasses/>
         </div>
     )
 }

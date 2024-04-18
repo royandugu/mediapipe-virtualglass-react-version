@@ -1,10 +1,13 @@
 body {
   background: #000;
   color: #fff;
+  overflow: hidden;
 }
 /* column wise on mobile */
 
-
+.video-container{
+  position: relative;
+}
 .video-container h2 {
   font-family: serif;
 }
