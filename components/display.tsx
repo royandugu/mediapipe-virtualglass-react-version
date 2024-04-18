@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { CameraFrameProvider } from "./cameraFrameProvider/cameraFramerProvider"
 import { FacemeshLandmarksProvider } from "./ladmarks/landmarksProvider"
@@ -7,8 +7,6 @@ import { SceneManager } from "./sceneManager/sceneManager";
 import ListOfGlasses from "./listOfGlasses/listOfGlasses";
 
 const Display = () => {
-    const [selected,setSelected]=useState(-1);
-
     const videoRef = useRef<HTMLDivElement>(null);
     const video = useRef<HTMLVideoElement>(null);
     const source = useRef<HTMLSourceElement>(null);
