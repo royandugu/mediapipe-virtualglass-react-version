@@ -35,14 +35,14 @@ export class SceneManager {
   camera:any;
   videoWidth:number;
   videoHeight:number;
-  constructor(canvas:any, debug=false, useOrtho=true) {
+  constructor(canvas:any, light:any,debug=false, useOrtho=false) {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
+    this.scene.add(light);
     this.debug = debug;
     this.useOrtho = useOrtho;
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      devicePixelRation: window.devicePixelRatio || 1
     });
     this.fov = 63;
     this.buildCamera();

@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 import { useEffect, useRef } from "react";
 
 import { CameraFrameProvider } from "./cameraFrameProvider/cameraFramerProvider"
@@ -11,14 +13,14 @@ const Display = () => {
     const video = useRef<HTMLVideoElement>(null);
     const source = useRef<HTMLSourceElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
-    
-    let onceCalled=false;
+
+    let onceCalled = false;
 
     async function main() {
         if (videoRef.current && video.current && source.current && canvas.current) {
             videoRef.current?.classList.add("loading");
 
- 
+
             const useOrtho = true;
             const debug = false;
 
@@ -46,8 +48,20 @@ const Display = () => {
                 sceneManager.animate();
             }
 
-            sceneManager = new SceneManager(canvas.current, debug, useOrtho);
-            sceneManager.buildGlasses("3d/black-glasses/scene.gltf");
+            // Directional Light - Left
+            const directionalLightLeft = new THREE.DirectionalLight(0xffffff, 1); 
+            directionalLightLeft.position.set(50, 0, 120); // Position light to the left
+            directionalLightLeft.castShadow = true; // Enable shadow casting
+
+
+            // // Directional Light - Right
+            // const directionalLightRight = new THREE.DirectionalLight(0xffffff, 1); // White light with full intensity
+            // directionalLightRight.position.set(10, 10, 10); // Position light to the right
+            // directionalLightRight.castShadow = true; // Enable shadow casting
+            // scene.add(directionalLightRight);
+
+            sceneManager = new SceneManager(canvas.current, directionalLightLeft, debug, useOrtho);
+            sceneManager.buildGlasses("3d/green-glass/green-glasses.glb");
 
             facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
 
@@ -75,11 +89,11 @@ const Display = () => {
     }
 
     useEffect(() => {
-        if(!onceCalled){
+        if (!onceCalled) {
             main();
-            onceCalled=true;
+            onceCalled = true;
         }
-    }, [videoRef, canvas, video, source]) 
+    }, [videoRef, canvas, video, source])
 
     return (
         <div className="video-container" ref={videoRef}>
@@ -94,7 +108,7 @@ const Display = () => {
                     <source ref={source} src=" " />
                 </video>
             </div>
-            <ListOfGlasses/>
+            <ListOfGlasses />
         </div>
     )
 }

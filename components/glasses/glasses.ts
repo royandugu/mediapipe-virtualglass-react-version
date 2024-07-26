@@ -69,12 +69,11 @@ export class Glasses {
     let rightEyeUpper1 = scaleLandmark(this.landmarks[34], this.width, this.height);
 
     if (this.glasses) {
-
       // position
       this.glasses.position.set(
         midEyes.x,
-        midEyes.y,
-        midEyes.z,
+        midEyes.y-10,
+        30,
       )
 
       // scale to make glasses
