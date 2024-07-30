@@ -111,6 +111,15 @@ export class SceneManager {
     ); 
   }
 
+  buildCustomPerspectiveCamera(){
+    this.camera = new THREE.PerspectiveCamera(
+      this.fov,
+      this.renderer.domElement.width / this.renderer.domElement.height,
+      1.0, // near
+      10000, // far
+    )
+  }
+
   // we need to resize canvas rendering dimensions
   // when canvas sytling dimensions change
   resizeRendererToDisplaySize() {
@@ -173,6 +182,7 @@ export class SceneManager {
       );
 
       this.updateCamera();
+
     }
 
 

@@ -61,7 +61,7 @@ const Display = () => {
             // scene.add(directionalLightRight);
 
             sceneManager = new SceneManager(canvas.current, directionalLightLeft, debug, useOrtho);
-            sceneManager.buildGlasses("3d/green-glass/green-glasses.glb");
+            sceneManager.buildGlasses("3d/two-glasses/face_rigged.gltf");
 
             facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
 
@@ -107,7 +107,9 @@ const Display = () => {
                 <video ref={video} className="input_video" controls playsInline>
                     <source ref={source} src=" " />
                 </video>
+                
             </div>
+            
             <ListOfGlasses />
         </div>
     )

@@ -4,6 +4,7 @@ import { transformLandmarks } from "../ladmarks/landmarksHelper";
 export class FacemeshLandmarksProvider {
     callback: any;
     faceMesh: any;
+    
     constructor(callback: any) {
         this.callback = callback;
         this.faceMesh = null;
@@ -43,6 +44,5 @@ export class FacemeshLandmarksProvider {
 
         this.faceMesh.onResults(onResults);
         await this.faceMesh.initialize();
-        console.log("first")
     }
 } 

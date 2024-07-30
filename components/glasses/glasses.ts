@@ -72,8 +72,8 @@ export class Glasses {
       // position
       this.glasses.position.set(
         midEyes.x,
-        midEyes.y-10,
-        30,
+        midEyes.y-50,
+        midEyes.z
       )
 
       // scale to make glasses
@@ -84,8 +84,9 @@ export class Glasses {
         (leftEyeUpper1.y - rightEyeUpper1.y) ** 2 +
         (leftEyeUpper1.z - rightEyeUpper1.z) ** 2
       );
-      const scale = eyeDist / this.scaleFactor;
-      this.glasses.scale.set(scale, scale, scale);
+      
+      let scale = eyeDist / this.scaleFactor;
+      this.glasses.scale.set(scale*1.2, scale*1.2, scale);
 
       // use two vectors to rotate glasses
       // Vertical Vector from midEyes to noseBottom
@@ -121,7 +122,7 @@ export class Glasses {
       ).angleTo(new THREE.Vector3(0, 0, 1)) - (Math.PI / 2);
 
       this.glasses.rotation.set(xRot, yRot, zRot);
-
+      
     }
   }
 

@@ -74,7 +74,6 @@ import {FACE_MESH_INDEX_BUFFER, FACE_MESH_UV} from "../static/faceGeometry";
       let {x, y, z} = landmarks[i];
       let vertex:number[] =  [x, y, z];
       vertices.push(...vertex);
-      console.log(vertices); 
     }
     for (let j = 0; j < 468; j++) {
       uvs[j * 2] = FACE_MESH_UV[j][0];
