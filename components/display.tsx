@@ -61,7 +61,7 @@ const Display = () => {
             // scene.add(directionalLightRight);
 
             sceneManager = new SceneManager(canvas.current, directionalLightLeft, debug, useOrtho);
-            sceneManager.buildGlasses("3d/two-glasses/face_rigged.gltf");
+            sceneManager.buildGlasses("3d/green-glass/green-glasses.gltf");
 
             facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
 
